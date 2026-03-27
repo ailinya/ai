@@ -1,4 +1,11 @@
-import { Controller, Get, MessageEvent, Query, Sse } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Inject,
+  MessageEvent,
+  Query,
+  Sse,
+} from '@nestjs/common';
 import { AiService } from './ai.service';
 import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';

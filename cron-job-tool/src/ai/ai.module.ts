@@ -9,19 +9,20 @@
 import { Module } from '@nestjs/common';
 import { AiService } from './ai.service';
 import { AiController } from './ai.controller';
-import { ConfigService } from '@nestjs/config';
-import { ChatOpenAI } from '@langchain/openai';
 import { tool } from '@langchain/core/tools';
 import { z } from 'zod';
 import { UserService } from './user.service';
-import { MailerService } from '@nestjs-modules/mailer';
+import { UsersModule } from '../users/users.module';
+import { ToolModule } from '../tool/tool.module';
 
 @Module({
+  imports: [UsersModule, ToolModule],
   controllers: [AiController],
   providers: [
     AiService,
     UserService,
     {
+<<<<<<< HEAD
       provide: 'CHAT_MODEL',
       useFactory: (configService: ConfigService) => {
         return new ChatOpenAI({
@@ -35,6 +36,8 @@ import { MailerService } from '@nestjs-modules/mailer';
       inject: [ConfigService],
     },
     {
+=======
+>>>>>>> c7bacc5885cce470ec0e87a72e13f24a924d2f05
       provide: 'QUERY_USER_TOOL',
       useFactory: (userService: UserService) => {
         const queryUserArgsSchema = z.object({
@@ -66,6 +69,7 @@ import { MailerService } from '@nestjs-modules/mailer';
       },
       inject: [UserService],
     },
+<<<<<<< HEAD
     {
       provide: 'SEND_MAIL_TOOL',
       useFactory: (
@@ -217,6 +221,8 @@ URL: ${page.url}
       },
       inject: [ConfigService],
     },
+=======
+>>>>>>> c7bacc5885cce470ec0e87a72e13f24a924d2f05
   ],
 })
 export class AiModule {}
