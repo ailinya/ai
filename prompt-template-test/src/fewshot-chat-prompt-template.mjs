@@ -11,7 +11,7 @@ import {
 const model = new ChatOpenAI({
   temperature: 0.3,
   model: process.env.MODEL_NAME,
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.DASHSCOPE_API_KEY,
   configuration: {
     baseURL: process.env.OPENAI_BASE_URL,
   },
@@ -90,7 +90,7 @@ async function main() {
     console.log('\n');
   } catch (e) {
     console.log(
-      '\n（提示：如需真实调用模型，请确认已配置 MODEL_NAME / OPENAI_API_KEY / OPENAI_BASE_URL）',
+      '\n（提示：如需真实调用模型，请确认已配置 MODEL_NAME / DASHSCOPE_API_KEY / OPENAI_BASE_URL）',
     );
   }
 }

@@ -1,3 +1,11 @@
+/*
+ * @Author: nll 2664840261@qq.com
+ * @Date: 2026-03-16 10:14:44
+ * @LastEditors: nll 2664840261@qq.com
+ * @LastEditTime: 2026-03-16 14:30:11
+ * @FilePath: \ai-agent-course-code\cron-job-tool\src\ai\ai.module.ts
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 import { Module } from '@nestjs/common';
 import { AiService } from './ai.service';
 import { AiController } from './ai.controller';
@@ -17,10 +25,10 @@ import { MailerService } from '@nestjs-modules/mailer';
       provide: 'CHAT_MODEL',
       useFactory: (configService: ConfigService) => {
         return new ChatOpenAI({
-          model: configService.get('MODEL_NAME'),
-          apiKey: configService.get('OPENAI_API_KEY'),
+          model: configService.get<string>('MODEL_NAME'),
+          apiKey: configService.get<string>('DASHSCOPE_API_KEY'),
           configuration: {
-            baseURL: configService.get('OPENAI_BASE_URL'),
+            baseURL: configService.get<string>('OPENAI_BASE_URL'),
           },
         });
       },
@@ -34,7 +42,7 @@ import { MailerService } from '@nestjs-modules/mailer';
         });
 
         return tool(
-          async ({ userId }: { userId: string }) => {
+          ({ userId }: { userId: string }) => {
             const user = userService.findOne(userId);
 
             if (!user) {
@@ -60,26 +68,30 @@ import { MailerService } from '@nestjs-modules/mailer';
     },
     {
       provide: 'SEND_MAIL_TOOL',
-      useFactory: (mailerService: MailerService, configService: ConfigService) => {
+      useFactory: (
+        mailerService: MailerService,
+        configService: ConfigService,
+      ) => {
         const sendMailArgsSchema = z.object({
-          to: z
-            .email()
-            .describe('收件人邮箱地址，例如：someone@example.com'),
+          to: z.email().describe('收件人邮箱地址，例如：someone@example.com'),
           subject: z.string().describe('邮件主题'),
           text: z.string().optional().describe('纯文本内容，可选'),
           html: z.string().optional().describe('HTML 内容，可选'),
         });
 
         return tool(
-          async ({ to, subject, text, html }: {
+          async ({
+            to,
+            subject,
+            text,
+            html,
+          }: {
             to: string;
             subject: string;
             text?: string;
             html?: string;
           }) => {
-            const fallbackFrom =
-              configService.get<string>('MAIL_FROM');
-
+            const fallbackFrom = configService.get<string>('MAIL_FROM');
             await mailerService.sendMail({
               to,
               subject,
@@ -146,9 +158,23 @@ import { MailerService } from '@nestjs-modules/mailer';
               return `搜索 API 请求失败，状态码: ${response.status}, 错误信息: ${errorText}`;
             }
 
-            let json: any;
+            type WebPage = {
+              name: string;
+              url: string;
+              summary: string;
+              siteName: string;
+              siteIcon: string;
+              dateLastCrawled: string;
+            };
+            type SearchResponse = {
+              code: number;
+              msg?: string;
+              data?: { webPages?: { value: WebPage[] } };
+            };
+
+            let json: SearchResponse;
             try {
-              json = await response.json();
+              json = (await response.json()) as SearchResponse;
             } catch (e) {
               return `搜索 API 请求失败，原因是：搜索结果解析失败 ${(e as Error).message}`;
             }
@@ -165,7 +191,7 @@ import { MailerService } from '@nestjs-modules/mailer';
 
               const formatted = webpages
                 .map(
-                  (page: any, idx: number) =>
+                  (page: WebPage, idx: number) =>
                     `引用: ${idx + 1}
 标题: ${page.name}
 URL: ${page.url}
@@ -194,4 +220,3 @@ URL: ${page.url}
   ],
 })
 export class AiModule {}
-

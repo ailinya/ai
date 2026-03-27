@@ -9,6 +9,7 @@ import {
   ToolMessage,
 } from '@langchain/core/messages';
 import { Runnable } from '@langchain/core/runnables';
+import { StructuredTool } from '@langchain/core/tools';
 
 /**
  * 下面是最初版本的内联工具定义，只是保留做参考，不再实际使用。
@@ -54,9 +55,9 @@ export class AiService {
 
   constructor(
     @Inject('CHAT_MODEL') model: ChatOpenAI,
-    @Inject('QUERY_USER_TOOL') private readonly queryUserTool: any,
-    @Inject('SEND_MAIL_TOOL') private readonly sendMailTool: any,
-    @Inject('WEB_SEARCH_TOOL') private readonly webSearchTool: any,
+    @Inject('QUERY_USER_TOOL') private readonly queryUserTool: StructuredTool,
+    @Inject('SEND_MAIL_TOOL') private readonly sendMailTool: StructuredTool,
+    @Inject('WEB_SEARCH_TOOL') private readonly webSearchTool: StructuredTool,
   ) {
     this.modelWithTools = model.bindTools([
       this.queryUserTool,
@@ -90,7 +91,9 @@ export class AiService {
         const toolName = toolCall.name;
 
         if (toolName === 'query_user') {
-          const result = await this.queryUserTool.invoke(toolCall.args);
+          const result = (await this.queryUserTool.invoke(
+            toolCall.args,
+          )) as string;
 
           messages.push(
             new ToolMessage({
@@ -100,7 +103,9 @@ export class AiService {
             }),
           );
         } else if (toolName === 'send_mail') {
-          const result = await this.sendMailTool.invoke(toolCall.args);
+          const result = (await this.sendMailTool.invoke(
+            toolCall.args,
+          )) as string;
 
           messages.push(
             new ToolMessage({
@@ -110,7 +115,9 @@ export class AiService {
             }),
           );
         } else if (toolName === 'web_search') {
-          const result = await this.webSearchTool.invoke(toolCall.args);
+          const result = (await this.webSearchTool.invoke(
+            toolCall.args,
+          )) as string;
 
           messages.push(
             new ToolMessage({
@@ -138,25 +145,25 @@ export class AiService {
 
       let fullAIMessage: AIMessageChunk | null = null;
 
-    //   for await (const chunk of stream as AsyncIterable<AIMessageChunk>) {
-    //     // 使用 concat 持续拼接，得到本轮完整的 AIMessageChunk
-    //     fullAIMessage = fullAIMessage ? fullAIMessage.concat(chunk) : chunk;
+      //   for await (const chunk of stream as AsyncIterable<AIMessageChunk>) {
+      //     // 使用 concat 持续拼接，得到本轮完整的 AIMessageChunk
+      //     fullAIMessage = fullAIMessage ? fullAIMessage.concat(chunk) : chunk;
 
-    //     const hasToolCallChunk =
-    //       !!fullAIMessage.tool_call_chunks &&
-    //       fullAIMessage.tool_call_chunks.length > 0;
+      //     const hasToolCallChunk =
+      //       !!fullAIMessage.tool_call_chunks &&
+      //       fullAIMessage.tool_call_chunks.length > 0;
 
-    //     // 只要当前轮次还没出现 tool 调用的 chunk，就可以把文本内容流式往外推
-    //     if (!hasToolCallChunk && chunk.content) {
-    //         yield chunk.content as string
-    //     }
-    //   }
+      //     // 只要当前轮次还没出现 tool 调用的 chunk，就可以把文本内容流式往外推
+      //     if (!hasToolCallChunk && chunk.content) {
+      //         yield chunk.content as string
+      //     }
+      //   }
       for await (const chunk of stream as AsyncIterable<AIMessageChunk>) {
         fullAIMessage = fullAIMessage ? fullAIMessage.concat(chunk) : chunk;
-      
+
         // 只要 fullAIMessage 里一旦出现了任何工具调用的影子
         const isToolCalling = (fullAIMessage.tool_call_chunks?.length ?? 0) > 0;
-      
+
         // 只有在确定不是工具调用时，才 yield content
         if (!isToolCalling && chunk.content) {
           yield chunk.content as string;
@@ -182,7 +189,9 @@ export class AiService {
         const toolName = toolCall.name;
 
         if (toolName === 'query_user') {
-          const result = await this.queryUserTool.invoke(toolCall.args);
+          const result = (await this.queryUserTool.invoke(
+            toolCall.args,
+          )) as string;
 
           messages.push(
             new ToolMessage({
@@ -192,7 +201,9 @@ export class AiService {
             }),
           );
         } else if (toolName === 'send_mail') {
-          const result = await this.sendMailTool.invoke(toolCall.args);
+          const result = (await this.sendMailTool.invoke(
+            toolCall.args,
+          )) as string;
 
           messages.push(
             new ToolMessage({
@@ -202,7 +213,9 @@ export class AiService {
             }),
           );
         } else if (toolName === 'web_search') {
-          const result = await this.webSearchTool.invoke(toolCall.args);
+          const result = (await this.webSearchTool.invoke(
+            toolCall.args,
+          )) as string;
 
           messages.push(
             new ToolMessage({

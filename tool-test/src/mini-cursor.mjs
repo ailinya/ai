@@ -6,7 +6,7 @@ import chalk from 'chalk';
 
 const model = new ChatOpenAI({ 
     modelName: "qwen-plus",
-    apiKey: process.env.OPENAI_API_KEY,
+    apiKey: process.env.DASHSCOPE_API_KEY,
     temperature: 0,
     configuration: {
         baseURL: process.env.OPENAI_BASE_URL,

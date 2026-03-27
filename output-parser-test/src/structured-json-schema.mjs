@@ -18,7 +18,7 @@ const nativeJsonSchema = zodToJsonSchema(scientistSchema);
 const model = new ChatOpenAI({
     modelName: "qwen-max",
     temperature: 0,
-    apiKey: process.env.OPENAI_API_KEY,
+    apiKey: process.env.DASHSCOPE_API_KEY,
     configuration: {
         baseURL: process.env.OPENAI_BASE_URL,
     },

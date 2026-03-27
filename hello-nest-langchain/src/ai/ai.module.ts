@@ -12,7 +12,7 @@ import { ChatOpenAI } from '@langchain/openai';
       useFactory: (configService: ConfigService) => {
         return new ChatOpenAI({
           model: configService.get('MODEL_NAME'),
-          apiKey: configService.get('OPENAI_API_KEY'),
+          apiKey: configService.get('DASHSCOPE_API_KEY'),
           configuration: {
             baseURL: configService.get('OPENAI_BASE_URL'),
           },

@@ -18,7 +18,7 @@ export class AiService {
     // const model = new ChatOpenAI({
     //   temperature: 0.7,
     //   model: configService.get('MODEL_NAME'),
-    //   apiKey: configService.get('OPENAI_API_KEY'),
+    //   apiKey: configService.get('DASHSCOPE_API_KEY'),
     //   configuration: {
     //     baseURL: configService.get('OPENAI_BASE_URL')
     //   },

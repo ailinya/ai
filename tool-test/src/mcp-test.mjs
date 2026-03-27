@@ -6,7 +6,7 @@ import { HumanMessage, SystemMessage, ToolMessage } from '@langchain/core/messag
 
 const model = new ChatOpenAI({ 
     modelName: "qwen-plus",
-    apiKey: process.env.OPENAI_API_KEY,
+    apiKey: process.env.DASHSCOPE_API_KEY,
     configuration: {
         baseURL: process.env.OPENAI_BASE_URL,
     },

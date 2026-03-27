@@ -12,7 +12,7 @@ const VECTOR_DIM = 1024;
 const model = new ChatOpenAI({
   temperature: 0.7,
   modelName: process.env.MODEL_NAME,
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.DASHSCOPE_API_KEY,
   configuration: {
     baseURL: process.env.OPENAI_BASE_URL,
   },
@@ -20,7 +20,7 @@ const model = new ChatOpenAI({
 
 // 初始化 Embeddings 模型
 const embeddings = new OpenAIEmbeddings({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.DASHSCOPE_API_KEY,
   model: process.env.EMBEDDINGS_MODEL_NAME,
   configuration: {
     baseURL: process.env.OPENAI_BASE_URL,

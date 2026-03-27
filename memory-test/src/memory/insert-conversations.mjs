@@ -6,7 +6,7 @@ const COLLECTION_NAME = 'conversations';
 const VECTOR_DIM = 1024;
 
 const embeddings = new OpenAIEmbeddings({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.DASHSCOPE_API_KEY,
   model: 'text-embedding-v3',
   configuration: {
     baseURL: process.env.OPENAI_BASE_URL

@@ -9,8 +9,13 @@ export class AiController {
 
   @Get('chat')
   async chat(@Query('query') query: string) {
-    const answer = await this.aiService.runChain(query);
-    return { answer };
+    try {
+      const answer = await this.aiService.runChain(query);
+      return { answer };
+    } catch (e) {
+      console.error('[chat error]', e);
+      throw e;
+    }
   }
 
   @Sse('chat/stream')

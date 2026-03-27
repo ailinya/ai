@@ -5,7 +5,7 @@ dotenv.config();
 
 const model = new ChatOpenAI({ 
     modelName: process.env.MODEL_NAME || "qwen-coder-turbo",
-    apiKey: process.env.OPENAI_API_KEY,
+    apiKey: process.env.DASHSCOPE_API_KEY,
     configuration: {
         baseURL: process.env.OPENAI_BASE_URL,
     },
