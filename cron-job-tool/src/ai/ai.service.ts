@@ -55,18 +55,12 @@ export class AiService {
 
   constructor(
     @Inject('CHAT_MODEL') model: ChatOpenAI,
-<<<<<<< HEAD
-    @Inject('QUERY_USER_TOOL') private readonly queryUserTool: StructuredTool,
-    @Inject('SEND_MAIL_TOOL') private readonly sendMailTool: StructuredTool,
-    @Inject('WEB_SEARCH_TOOL') private readonly webSearchTool: StructuredTool,
-=======
     @Inject('QUERY_USER_TOOL') private readonly queryUserTool: any,
     @Inject('SEND_MAIL_TOOL') private readonly sendMailTool: any,
     @Inject('WEB_SEARCH_TOOL') private readonly webSearchTool: any,
     @Inject('DB_USERS_CRUD_TOOL') private readonly dbUsersCrudTool: any,
     @Inject('TIME_NOW_TOOL') private readonly timeNowTool: any,
     @Inject('CRON_JOB_TOOL') private readonly cronJobTool: any,
->>>>>>> c7bacc5885cce470ec0e87a72e13f24a924d2f05
   ) {
     this.modelWithTools = model.bindTools([
       this.queryUserTool,
