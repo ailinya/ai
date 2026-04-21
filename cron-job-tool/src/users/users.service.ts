@@ -9,8 +9,11 @@ export class UsersService {
   @Inject(EntityManager)
   entityManager: EntityManager;
 
-  create(createUserDto: CreateUserDto) {
-    return this.entityManager.save(User, createUserDto);
+  async create(createUserDto: CreateUserDto) {
+    console.log('[UsersService.create input]', createUserDto);
+    const result = await this.entityManager.save(User, createUserDto);
+    console.log('[UsersService.create result]', result);
+    return result;
   }
 
   findAll() {

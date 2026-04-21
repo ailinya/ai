@@ -40,14 +40,27 @@ export class WebSearchToolService {
           count: count ?? 10,
         };
 
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${apiKey}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(body),
+        console.log('[web_search request]', {
+          url,
+          query,
+          count: count ?? 10,
+          hasApiKey: !!apiKey,
         });
+
+        let response: Response;
+        try {
+          response = await fetch(url, {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${apiKey}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+          });
+        } catch (e) {
+          console.error('[web_search fetch error]', e);
+          return `搜索 API 请求失败，fetch error: ${(e as Error).message}`;
+        }
 
         if (!response.ok) {
           const errorText = await response.text();

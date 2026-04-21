@@ -98,6 +98,8 @@ export class AiService {
       messages.push(aiMessage);
 
       const toolCalls = aiMessage.tool_calls ?? [];
+      console.log('[AI runChain content]', aiMessage.content);
+      console.log('[AI runChain toolCalls]', JSON.stringify(toolCalls, null, 2));
 
       // 没有要调用的工具，直接把回答返回给调用方
       if (!toolCalls.length) {
@@ -188,7 +190,15 @@ export class AiService {
 定时任务类型选择规则（非常重要）：
 - “X分钟/小时/天后”“在某个时间点”“到点提醒”（一次性）=> \`cron_job.type=at\`（执行一次后自动停用）
 - “每X分钟/每小时/每天”“定期/循环/一直”（重复执行）=> \`cron_job.type=every\`（每次执行），\`everyMs\`=毫秒
-- 给出 Cron 表达式 => \`cron_job.type=cron\``,
+- 给出 Cron 表达式 => \`cron_job.type=cron\`
+
+重要工具调用规则（非常重要）：
+- 当后续工具参数依赖前一个工具的真实结果时，必须分多轮调用，不能在同一轮同时调用。
+- 如果本轮调用了 \`web_search\`，则本轮不要再调用依赖搜索结果的 \`db_users_crud\` 或 \`send_mail\`。
+- 严禁在工具参数中使用占位符，例如 \`{school_name}\`、\`{school_email}\`、\`{school_rows}\`。
+- 必须等拿到真实工具结果后，再生成下一步工具参数。
+
+注意：像“\`1分钟后提醒我喝水\`”，时间相关信息用于计算下一次执行时间，而 \`instruction\` 应该是“提醒我喝水”；本轮不需要立刻提醒。`,
       ),
       new HumanMessage(query),
     ];
@@ -231,6 +241,8 @@ export class AiService {
       messages.push(fullAIMessage);
 
       const toolCalls = fullAIMessage.tool_calls ?? [];
+      console.log('[AI runChainStream content]', fullAIMessage.content);
+      console.log('[AI runChainStream toolCalls]', JSON.stringify(toolCalls, null, 2));
 
       // 没有工具调用：说明这一轮就是最终回答，已经在上面的 for-await 中流完了，可以结束
       if (!toolCalls.length) {

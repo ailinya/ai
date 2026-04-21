@@ -8,9 +8,15 @@ export class LlmService {
   private readonly configService: ConfigService;
 
   getModel() {
+    console.log('[LLM config]', {
+      model: this.configService.get('MODEL_NAME'),
+      hasKey: !!this.configService.get('DASHSCOPE_API_KEY'),
+      baseURL: this.configService.get('OPENAI_BASE_URL'),
+    });
+
     return new ChatOpenAI({
       model: this.configService.get('MODEL_NAME'),
-      apiKey: this.configService.get('OPENAI_API_KEY'),
+      apiKey: this.configService.get('DASHSCOPE_API_KEY'),
       configuration: {
         baseURL: this.configService.get('OPENAI_BASE_URL'),
       },

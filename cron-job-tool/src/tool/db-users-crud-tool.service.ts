@@ -46,6 +46,8 @@ export class DbUsersCrudToolService {
         name?: string;
         email?: string;
       }) => {
+        console.log('[db_users_crud args]', { action, id, name, email });
+
         switch (action) {
           case 'create': {
             if (!name || !email) {

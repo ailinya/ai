@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cron Job Tool - 定时任务工具</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'SF Pro Text',
+          'Segoe UI', sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 24px 16px;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 800px;
+        text-align: center;
+      }
+
+      .card {
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        padding: 40px 30px;
+      }
+
+      h1 {
+        font-size: 32px;
+        margin: 0 0 12px;
+        color: #1f2937;
+      }
+
+      .subtitle {
+        font-size: 16px;
+        color: #6b7280;
+        margin-bottom: 30px;
+      }
+
+      .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+        margin: 30px 0;
+        text-align: left;
+      }
+
+      .feature-item {
+        background: #f9fafb;
+        padding: 16px;
+        border-radius: 8px;
+        border: 1px solid #e5e7eb;
+      }
+
+      .feature-item h3 {
+        font-size: 14px;
+        margin: 0 0 8px;
+        color: #374151;
+      }
+
+      .feature-item p {
+        font-size: 13px;
+        margin: 0;
+        color: #6b7280;
+      }
+
+      .links {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        margin-top: 24px;
+      }
+
+      .link-btn {
+        padding: 10px 20px;
+        border-radius: 8px;
+        border: none;
+        background: #3b82f6;
+        color: #ffffff;
+        font-size: 14px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background 0.2s;
+      }
+
+      .link-btn:hover {
+        background: #2563eb;
+      }
+
+      .link-btn.secondary {
+        background: #6b7280;
+      }
+
+      .link-btn.secondary:hover {
+        background: #4b5563;
+      }
+
+      .footer {
+        margin-top: 30px;
+        font-size: 12px;
+        color: #9ca3af;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <h1>🚀 Cron Job Tool</h1>
+        <p class="subtitle">定时任务管理工具 - 基于 NestJS + LangChain</p>
+
+        <div class="features">
+          <div class="feature-item">
+            <h3>📅 定时任务</h3>
+            <p>创建、管理、执行定时任务</p>
+          </div>
+          <div class="feature-item">
+            <h3>🤖 AI 集成</h3>
+            <p>基于 LangChain 的智能任务处理</p>
+          </div>
+          <div class="feature-item">
+            <h3>📧 邮件通知</h3>
+            <p>任务执行结果邮件推送</p>
+          </div>
+          <div class="feature-item">
+            <h3>📊 数据库</h3>
+            <p>MySQL 存储任务记录</p>
+          </div>
+        </div>
+
+        <div class="links">
+          <a href="/ai-sse-test.html" class="link-btn">AI 聊天测试</a>
+          <a href="#" class="link-btn secondary">API 文档</a>
+        </div>
+
+        <div class="footer">
+          <p>服务运行中 · NestJS v11 · TypeScript</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
